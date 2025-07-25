@@ -9,7 +9,7 @@ import Contact from "./pages/Contact";
 
 function App() {
   return (
-    <div>
+    <div style={{ background: '#000', minHeight: '100vh', width: '100vw' }}>
       <Navbar />
       <main>
         <section id="Home">

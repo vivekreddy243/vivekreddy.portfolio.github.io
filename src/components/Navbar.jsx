@@ -2,20 +2,25 @@ import React, { useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 function Navbar() {
-  const [activeSection, setActiveSection] = useState("Home");
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll("section");
-      let currentSection = "Home";
+      let currentSection = "";
 
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 200) {
+        const sectionHeight = section.offsetHeight;
+        if (window.scrollY >= sectionTop - 200 && window.scrollY < sectionTop + sectionHeight - 200) {
           currentSection = section.getAttribute("id");
         }
       });
-      setActiveSection(currentSection.charAt(0).toUpperCase() + currentSection.slice(1));
+      if (currentSection) {
+        setActiveSection(currentSection.charAt(0).toUpperCase() + currentSection.slice(1));
+      } else {
+        setActiveSection("");
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -34,43 +39,40 @@ function Navbar() {
         <nav className="nav">
           <ul className="navList">
             <li>
-              <a href="#Home" className={activeSection === "Home" ? "active" : ""}>
+              <a href="#Home" className={activeSection === "Home" ? "active" : undefined}>
                 Home
               </a>
             </li>
             <li>
-              <a href="#About" className={activeSection === "About" ? "active" : ""}>
+              <a href="#About" className={activeSection === "About" ? "active" : undefined}>
                 About
               </a>
             </li>
             <li>
-              <a href="#Technologies" className={activeSection === "Technologies" ? "active" : ""}>
+              <a href="#Technologies" className={activeSection === "Technologies" ? "active" : undefined}>
                 Technologies
               </a>
             </li>
             <li>
-              <a href="#Projects" className={activeSection === "Projects" ? "active" : ""}>
+              <a href="#Projects" className={activeSection === "Projects" ? "active" : undefined}>
                 Projects
               </a>
             </li>
             <li>
-              <a href="#Contact" className={activeSection === "Contact" ? "active" : ""}>
+              <a href="#Contact" className={activeSection === "Contact" ? "active" : undefined}>
                 Contact
               </a>
             </li>
           </ul>
-          <div className="socialIcons">
-            <a href={socialMediaUrl.Twitter} target="_blank" rel="noreferrer">
-              <FaTwitter size={24} />
-            </a>
-            <a href={socialMediaUrl.Linkedin} target="_blank" rel="noreferrer">
-              <FaLinkedin size={24} />
-            </a>
-            <a href={socialMediaUrl.Github} target="_blank" rel="noreferrer">
-              <FaGithub size={24} />
-            </a>
-          </div>
         </nav>
+        <div className="socialIcons">
+          <a href={socialMediaUrl.Github} target="_blank" rel="noreferrer">
+            <FaGithub size={24} />
+          </a>
+          <a href={socialMediaUrl.Linkedin} target="_blank" rel="noreferrer">
+            <FaLinkedin size={24} />
+          </a>
+        </div>
       </div>
     </header>
   );
